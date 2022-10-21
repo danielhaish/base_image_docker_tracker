@@ -2,11 +2,16 @@
 This project bassiclly tring to find the base image of docker image by looking on it layers
 
 usment example
+
+
 pip install -r req.txt
+
+
 python app.py django:alpine
 
 output:
 Found base images orderd:
+
 python:alpine
 alpine
 
