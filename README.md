@@ -20,4 +20,4 @@ Pleae feel free to add new images to the db or add more feature/fix bugs by pull
 
 TO DO:
 1. databse in web
-2. search for layers on odcker hub
+2. search for layers on docker hub
