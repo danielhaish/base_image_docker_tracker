@@ -27,7 +27,6 @@ with open(DATA_BASE_FILE) as csv_file:
             print(f'Column names are {", ".join(row)}')
             line_count += 1
         else:
-            print(f'\t{row[0]} works in the {row[1]} department, and was born in {row[2]}.')
             layeyrs_to_image[row[0]] = row[1].split(LAYERS_SPERITOR_SING) 
             line_count += 1
 
@@ -37,7 +36,7 @@ base_images = {}
 semi_match_base_images ={}
 client = docker.APIClient(base_url='unix://var/run/docker.sock') 
 client.inspect_image(SEARCH_IMAGE)
-layers = client.inspect_image(SEARCH_IMAGE)["ContainerConfig"]["RootFS"]["layers"]
+layers = [layer[7::] for layer in client.inspect_image(SEARCH_IMAGE)["RootFS"]["Layers"]]
 for image_name in layeyrs_to_image:
     matches_layers =  count_common_list_att(layers ,layeyrs_to_image[image_name])
     if matches_layers == len(layeyrs_to_image[image_name]):
@@ -55,6 +54,7 @@ else:
     print("No Base image was found but the clost ones are sorted fro mthe most close one to the last one")
     images_list = semi_match_base_images
 
-sorted_dict = dict(sorted(images_list.items(), key=lambda item: item[1]))
-    for i in sorted_dict:
-        print(i)
+print(images_list)
+sorted_dict = dict(sorted(images_list.items(), key=lambda item: item[1])[::-1])
+for i in sorted_dict:
+    print(i)
